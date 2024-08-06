@@ -7,7 +7,7 @@ import logging  # 일기를 쓰는 것처럼 기록을 남기는 도구
 # 일기장 설정하기
 # 'tensor_log.log'라는 파일에 우리가 한 일을 기록할 거예요
 # 시간도 함께 기록해서 언제 무슨 일이 있었는지 알 수 있어요
-logging.basicConfig(filename='tensor_log.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+logging.basicConfig(filename='./logs/visualize_3d.log', level=logging.INFO, format='%(asctime)s - %(message)s')
 
 # 특별한 숫자 모음(텐서)을 만들어요
 # 5개의 3x3 크기의 랜덤한 숫자 모음을 만들어요

@@ -8,8 +8,16 @@ import time
 import logging
 from datasets import load_dataset
 
+
 # 로깅 설정: 프로그램이 실행되는 동안 정보를 출력하는 설정입니다.
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', filename='mnist_pytorch_log.log')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', filename='./logs/mnist.log')
+
+# 콘솔 핸들러 추가
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
 
 # 시간 측정을 위한 변수들: 각 과정에 걸린 시간을 저장합니다.
 start_time = time.time()
@@ -96,7 +104,6 @@ outputs = model(images)  # 모델에 이미지 데이터를 넣어 예측값을 
 _, predicted = torch.max(outputs, 1)
 predicted_label = predicted[0].item()  # 첫 번째 이미지의 예측 결과를 얻습니다.
 logging.info(f'예측한 숫자: {predicted_label}')  # 예측한 숫자 출력
-
 # 훈련 과정의 정확도와 손실 그래프를 출력합니다.
 training_losses = []
 for epoch in range(num_epochs):
@@ -113,20 +120,26 @@ for epoch in range(num_epochs):
 # 전체 소요 시간 기록
 total_time = time.time() - start_time  # 전체 소요 시간을 계산합니다.
 logging.info(f'전체 소요 시간: {total_time} 초')  # 전체 소요 시간 출력
-with open('mnist_pytorch_results.csv', mode='a', newline='') as file:
+with open('./csv/mnist_result.csv', mode='a', newline='') as file:
     writer = csv.writer(file)
     writer.writerow(['Total Time', total_time])
 
+# 두 개의 플롯을 함께 표시합니다.
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
 
-plt.plot(training_losses, label='loss')  # 손실 그래프를 그립니다.
-plt.xlabel('Epoch')
-plt.ylabel('Loss')
-plt.legend(loc='lower right')
+# 손실 그래프를 그립니다.
+ax1.plot(training_losses, label='loss')
+ax1.set_xlabel('Epoch')
+ax1.set_ylabel('Loss')
+ax1.legend(loc='lower right')
+ax1.set_title('Training Loss')
+
+# 테스트 데이터에서 이미지 하나를 선택해 예측해봅니다.
+ax2.imshow(images[0].numpy().squeeze(), cmap='gray')
+ax2.set_title(f'Predicted: {predicted_label}')
+ax2.axis('off')
+
 plt.show()
-
-plt.imshow(images[0].numpy().squeeze(), cmap='gray')  # 이미지를 화면에 표시합니다.
-plt.show()
-
 
 # 결과를 CSV 파일에 저장합니다.
 with open('mnist_pytorch_results.csv', mode='w', newline='') as file:
