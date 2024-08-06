@@ -4,11 +4,13 @@ version = "0.1.0"
 description = ""
 authors = ["CheolheeLee0 <wks0968@gmail.com>"]
 readme = "README.md"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
 torch = "^2.4.0"
 matplotlib = "^3.9.0"
+datasets = "^2.20.0"
 
 
 [build-system]

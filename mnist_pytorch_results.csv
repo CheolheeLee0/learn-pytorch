@@ -1,0 +1,5 @@
+Step,Time (seconds)
+training_time,2.903426170349121
+evaluation_time,0.02958512306213379
+Test Accuracy,0.9663
+Predicted Label,7
