@@ -1,6 +1,6 @@
 import torch
 from trl import SFTTrainer
-from datasets import load_dataset
+from train_japanese import load_dataset
 from transformers import TrainingArguments, TextStreamer
 
 import logging

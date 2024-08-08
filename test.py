@@ -3,7 +3,7 @@ from unsloth import is_bfloat16_supported
 import torch
 from trl import SFTTrainer
 from transformers import TrainingArguments
-from datasets import load_dataset
+from train_japanese import load_dataset
 max_seq_length = 2048 # Supports RoPE Scaling interally, so choose any!
 # Get LAION dataset
 url = "https://huggingface.co/datasets/laion/OIG/resolve/main/unified_chip2.jsonl"

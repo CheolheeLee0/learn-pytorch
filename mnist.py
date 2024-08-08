@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import csv
 import time
 import logging
-from datasets import load_dataset
+from train_japanese import load_dataset
 
 
 # 로깅 설정: 프로그램이 실행되는 동안 정보를 출력하는 설정입니다.
