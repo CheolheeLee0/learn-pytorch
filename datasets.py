@@ -1,6 +1,6 @@
 import time
 import pandas as pd
-from datasets import load_dataset, Dataset
+from datasets import load_dataset 
 import transformers
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
@@ -21,10 +21,10 @@ def measure_time(func):
     return wrapper
 
 # 데이터셋 로드
-@measure_time
-def load_data():
-    return load_dataset("izumi-lab/llm-japanese-dataset-vanilla")
-dataset = load_data()
+# @measure_time
+# def load_data():
+#     return load_dataset("izumi-lab/llm-japanese-dataset-vanilla")
+# dataset = load_data()
 
 print(dataset.num_rows)
 print(dataset.num_columns)
