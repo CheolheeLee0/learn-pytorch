@@ -1,5 +1,9 @@
 services:
-  pytorch-app:
-    build: .
+  imdb-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - .:/app
+      - ./csv:/app/csv
+      - ./logs:/app/logs
+    command: python /app/imdb.py

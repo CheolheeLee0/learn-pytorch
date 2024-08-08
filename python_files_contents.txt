@@ -1,0 +1,214 @@
+File: ./visualize_3d.py
+Content:
+
+import torch  
+import matplotlib.pyplot as plt  
+from mpl_toolkits.mplot3d import Axes3D  
+import logging  
+
+
+
+
+logging.basicConfig(filename='./logs/visualize_3d.log', level=logging.INFO, format='%(asctime)s - %(message)s')
+
+
+
+x = torch.rand(5, 3, 3)
+
+
+print("만들어진 텐서:")
+print(x)
+
+
+
+with open('output.txt', 'w') as f:
+    f.write(str(x))
+
+
+
+fig = plt.figure(figsize=(10, 8))
+
+ax = fig.add_subplot(111, projection='3d')
+
+
+for i in range(5):
+    
+    xs = x[i, :, 0].numpy()
+    ys = x[i, :, 1].numpy()
+    zs = x[i, :, 2].numpy()
+    
+    ax.scatter(xs, ys, zs)
+
+
+ax.set_xlabel('X')
+ax.set_ylabel('Y')
+ax.set_zlabel('Z')
+ax.set_title('3D 텐서 시각화')
+
+
+plt.savefig('tensor_visualization_3d.png')
+
+plt.show()
+
+plt.close()
+
+
+logging.info(f'만들어진 텐서: {x}')
+
+
+print("결과물들이 파일로 저장되었어요: output.txt, tensor_visualization_3d.png, 그리고 tensor_log.log")
+File: ./mnist.py
+Content:
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torchvision.transforms as transforms
+import matplotlib.pyplot as plt
+import csv
+import time
+import logging
+from datasets import load_dataset
+
+
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', filename='./logs/mnist.log')
+
+
+console = logging.StreamHandler()
+console.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(message)s')
+console.setFormatter(formatter)
+logging.getLogger('').addHandler(console)
+
+
+start_time = time.time()
+times = {}
+
+
+transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5,), (0.5,))])
+
+
+ds = load_dataset("ylecun/mnist")
+
+
+def transform_batch(batch):
+    images = batch['image']
+    labels = batch['label']
+    images = [transform(img) for img in images]
+    return torch.stack(images), torch.tensor(labels)
+
+
+train_data = ds['train']
+test_data = ds['test']
+
+train_images, train_labels = transform_batch(train_data)
+test_images, test_labels = transform_batch(test_data)
+
+trainloader = torch.utils.data.DataLoader(list(zip(train_images, train_labels)), batch_size=32, shuffle=True)
+testloader = torch.utils.data.DataLoader(list(zip(test_images, test_labels)), batch_size=32, shuffle=False)
+
+
+class Net(nn.Module):
+    def __init__(self):
+        super(Net, self).__init__()
+        self.flatten = nn.Flatten()  
+        self.fc1 = nn.Linear(28 * 28, 128)  
+        self.fc2 = nn.Linear(128, 10)  
+
+    def forward(self, x):
+        x = self.flatten(x)  
+        x = torch.relu(self.fc1(x))  
+        x = self.fc2(x)  
+        return x
+
+model = Net()  
+
+
+criterion = nn.CrossEntropyLoss()  
+optimizer = optim.Adam(model.parameters(), lr=0.001)  
+
+
+training_start_time = time.time()
+num_epochs = 5  
+for epoch in range(num_epochs):
+    running_loss = 0.0
+    for inputs, labels in trainloader:
+        optimizer.zero_grad()  
+        outputs = model(inputs)  
+        loss = criterion(outputs, labels)  
+        loss.backward()  
+        optimizer.step()  
+        running_loss += loss.item()
+    logging.info(f'[{epoch + 1}] loss: {running_loss / len(trainloader)}')  
+times['training_time'] = time.time() - training_start_time  
+
+
+evaluation_start_time = time.time()
+correct = 0
+total = 0
+with torch.no_grad():  
+    for inputs, labels in testloader:
+        outputs = model(inputs)  
+        _, predicted = torch.max(outputs.data, 1)  
+        total += labels.size(0)
+        correct += (predicted == labels).sum().item()  
+test_acc = correct / total  
+times['evaluation_time'] = time.time() - evaluation_start_time  
+
+logging.info(f'테스트 정확도: {test_acc}')  
+
+
+dataiter = iter(testloader)
+images, labels = next(dataiter)  
+
+outputs = model(images)  
+_, predicted = torch.max(outputs, 1)
+predicted_label = predicted[0].item()  
+logging.info(f'예측한 숫자: {predicted_label}')  
+
+training_losses = []
+for epoch in range(num_epochs):
+    running_loss = 0.0
+    for inputs, labels in trainloader:
+        optimizer.zero_grad()
+        outputs = model(inputs)
+        loss = criterion(outputs, labels)
+        loss.backward()
+        optimizer.step()
+        running_loss += loss.item()
+    training_losses.append(running_loss / len(trainloader))
+
+
+total_time = time.time() - start_time  
+logging.info(f'전체 소요 시간: {total_time} 초')  
+with open('./csv/mnist_result.csv', mode='a', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Total Time', total_time])
+
+
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 5))
+
+
+ax1.plot(training_losses, label='loss')
+ax1.set_xlabel('Epoch')
+ax1.set_ylabel('Loss')
+ax1.legend(loc='lower right')
+ax1.set_title('Training Loss')
+
+
+ax2.imshow(images[0].numpy().squeeze(), cmap='gray')
+ax2.set_title(f'Predicted: {predicted_label}')
+ax2.axis('off')
+
+plt.show()
+
+
+with open('mnist_pytorch_results.csv', mode='w', newline='') as file:
+    writer = csv.writer(file)
+    writer.writerow(['Step', 'Time (seconds)'])
+    for step, time_taken in times.items():
+        writer.writerow([step, time_taken])
+    writer.writerow(['Test Accuracy', test_acc])
+    writer.writerow(['Predicted Label', predicted_label])
+
+

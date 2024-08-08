@@ -380,5 +380,7 @@ android/pytorch_android_torchvision/.cxx
 .stable_pyre_client
 .pyre_client
 
-/logs
-/csv
+logs
+csv
+prompt
+
