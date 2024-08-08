@@ -2,23 +2,7 @@ import torch
 from trl import SFTTrainer
 from datasets import load_dataset
 from transformers import TrainingArguments, TextStreamer
-import os
-import subprocess
 
-# Ensure xFormers is correctly installed
-def install_xformers():
-    try:
-        subprocess.run(["pip", "uninstall", "-y", "xformers"], check=True)
-        subprocess.run(["pip", "install", "xformers", "--upgrade", "--force-reinstall", "--extra-index-url", "https://download.pytorch.org/whl/cu121"], check=True)
-        subprocess.run(["python", "-m", "xformers.info"], check=True)
-    except subprocess.CalledProcessError as e:
-        logging.error(f"Failed to install xFormers: {e}")
-        raise
-
-install_xformers()
-
-from unsloth.chat_templates import get_chat_template
-from unsloth import FastLanguageModel, is_bfloat16_supported
 import logging
 import csv
 import time
