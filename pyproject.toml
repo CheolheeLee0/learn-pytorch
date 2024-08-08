@@ -1,19 +1,18 @@
 [tool.poetry]
 name = "learn-pytorch"
 version = "0.1.0"
-description = ""
-authors = ["CheolheeLee0 <wks0968@gmail.com>"]
+description = "A project using unsloth FastLanguageModel and SFTTrainer"
+authors = ["Your Name <your.email@example.com>"]
 readme = "README.md"
-package-mode = false
+packages = [{include = "unsloth_project"}]
 
 [tool.poetry.dependencies]
-python = "^3.12"
-torch = "^2.4.0"
-matplotlib = "^3.9.0"
-datasets = "^2.20.0"
-transformers = "^4.43.4"
-scikit-learn = "^1.5.1"
-
+python = "^3.9.18"
+unsloth = "^0.4.1" # Replace with the actual version
+torch = "==2.0.0"
+trl = "==0.4.1"
+transformers = "==4.27.4"
+datasets = "==2.11.0"
 
 [build-system]
 requires = ["poetry-core"]
