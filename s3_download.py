@@ -50,7 +50,7 @@ def main():
     blocking_factor = ((total_size // 512) // 100) + 1
     
     # Extract the tar file with progress
-    os.system(f"tar --blocking-factor={blocking_factor} --checkpoint=1 --checkpoint-action=ttyout='Extracting %u%' -xf {model_zip_path} -C {hpc_hub_path}")
+    os.system(f"tar --blocking-factor={blocking_factor} --checkpoint=1 --checkpoint-action=ttyout='Extracting %u%\n' -xf {model_zip_path} -C {hpc_hub_path}")
 
 if __name__ == "__main__":
     main()
