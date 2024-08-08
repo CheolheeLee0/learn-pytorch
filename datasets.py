@@ -1,4 +1,5 @@
 import time
+import pandas as pd
 from datasets import load_dataset, Dataset
 import transformers
 import torch
@@ -104,3 +105,20 @@ def evaluate_model():
 
 evaluation_results = evaluate_model()
 print(evaluation_results)
+
+# 추가된 코드: 다양한 평가 지표를 사용하여 결과를 비교하고 CSV 파일에 저장
+def save_results_to_csv(results, filename="evaluation_results.csv"):
+    df = pd.DataFrame([results])
+    df.to_csv(filename, index=False)
+
+# Save evaluation results to CSV
+save_results_to_csv(evaluation_results)
+
+# 추가된 코드: 다양한 평가 지표를 사용하여 결과를 비교
+def compare_results(results):
+    metrics = ["eval_loss", "eval_accuracy", "eval_perplexity"]
+    for metric in metrics:
+        if metric in results:
+            print(f"{metric}: {results[metric]:.4f}")
+
+compare_results(evaluation_results)
