@@ -135,7 +135,7 @@ def test_h100():
     device = torch.device("cuda:0")
     
     # Additional Training Code
-    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', filename='./logs/run.log')
+    logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(message)s', filename='./script.log')
 
     console = logging.StreamHandler()
     console.setLevel(logging.INFO)
