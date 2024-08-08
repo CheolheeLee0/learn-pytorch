@@ -54,3 +54,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+    
+# work@main1[FJ4GyOIS-session]:~/learn-pytorch$ python3 s3_download.py 
+# Downloaded 16307034231 bytes at 384061977.37 bytes/sec
