@@ -1,6 +1,6 @@
+from datasets import load_dataset 
 import time
 import pandas as pd
-from train_japanese import load_dataset 
 import transformers
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments, Trainer
