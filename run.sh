@@ -6,4 +6,9 @@ pip install --no-deps "xformers<0.0.27" "trl<0.9.0" peft accelerate bitsandbytes
 
 pip install -r requirements.txt
 
-python3 run.py
+
+pip list --outdated
+pip freeze > requirements.txt
+pip install -r requirements.txt --upgrade
+
+python3 llama_fine_tuning.py
