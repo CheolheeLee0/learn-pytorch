@@ -44,7 +44,7 @@ def download_with_progress(bucket_name, object_key, destination_file):
 def main():
     # 모델 파일 다운로드 및 압축 풀기
     model_zip_path = os.path.join(hpc_hub_path, 'hub.tar')
-    download_with_progress(bucket_name, 'home_hub.tar', model_zip_path)
+    download_with_progress(bucket_name, 'home_hub.zip', model_zip_path)
     with tarfile.open(model_zip_path, 'r') as tar:
         tar.extractall(hpc_hub_path)
         
