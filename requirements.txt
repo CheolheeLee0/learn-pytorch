@@ -1,11 +1,13 @@
-torch==1.9.0
-datasets==1.11.0
-transformers==4.9.2
+torch==2.0.0
+datasets==2.11.0
+transformers==4.27.4
 unsloth==2021.8
-trl==0.4.2
+trl==0.4.1
 
+# python 3.8
+# 2023.3
 # torch==2.4.0
 # datasets==2.20.0
 # transformers==4.43.4
-# unsloth==2024.8
-# trl==0.9.6
+# unsloth==2023.3
+# trl==0.4.1
