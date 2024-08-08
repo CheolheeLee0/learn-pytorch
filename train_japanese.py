@@ -10,17 +10,17 @@ from peft import LoraConfig, get_peft_model
 # raise RuntimeError("CUDA is not available. Please check your CUDA installation.")
 
 
-# if not torch.cuda.is_available():
-#     raise RuntimeError("CUDA is not available. Please check your CUDA installation.")
+if not torch.cuda.is_available():
+    raise RuntimeError("CUDA is not available. Please check your CUDA installation.")
 
-# device_count = torch.cuda.device_count()
-# if device_count == 0:
-#     raise RuntimeError("No CUDA devices found. Please check your GPU installation.")
+device_count = torch.cuda.device_count()
+if device_count == 0:
+    raise RuntimeError("No CUDA devices found. Please check your GPU installation.")
 
-# for i in range(device_count):
-#     print(f"Device {i}: {torch.cuda.get_device_name(i)}")
+for i in range(device_count):
+    print(f"Device {i}: {torch.cuda.get_device_name(i)}")
 
-# device = torch.device("cuda:0")
+device = torch.device("cuda:0")
 
 
 # latest version
