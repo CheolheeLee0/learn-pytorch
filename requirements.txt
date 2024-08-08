@@ -1,7 +1,7 @@
 torch==2.0.0
 datasets==2.11.0
 transformers==4.27.4
-unsloth==2021.8
+unsloth==2023.3
 trl==0.4.1
 
 # python 3.8
