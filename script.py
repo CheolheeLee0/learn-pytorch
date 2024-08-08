@@ -8,6 +8,7 @@ pipeline = transformers.pipeline(
     model=model_id,
     model_kwargs={"torch_dtype": torch.bfloat16, "rope_scaling": {"type": "dynamic", "factor": 8.0}},
     device_map="auto",
+    trust_remote_code=True  # Add this line to trust remote code
 )
 
 messages = [
