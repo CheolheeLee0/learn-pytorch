@@ -43,7 +43,7 @@ def download_with_progress(bucket_name, object_key, destination_file):
 def main():
     # 모델 파일 다운로드 및 압축 풀기
     model_zip_path = os.path.join(hpc_hub_path, 'hub.tar')
-    download_with_progress(bucket_name, 'home_hub.zip', model_zip_path)
+    download_with_progress(bucket_name, 'home_hub.tar', model_zip_path)
     
     # Get the total size of the tar file
     total_size = os.path.getsize(model_zip_path)
