@@ -7,8 +7,8 @@ import csv
 import time
 # from trl import SFTTrainer
 # from datasets import load_dataset
-# from transformers import TrainingArguments, TextStreamer
-# from transformers import FastLanguageModel, get_chat_template
+from transformers import TrainingArguments, TextStreamer
+from transformers import FastLanguageModel, get_chat_template
 
 def test_tensor_operations(device):
     print("\nTesting Tensor Operations:")
