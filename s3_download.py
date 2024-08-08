@@ -13,7 +13,6 @@ model_id = "meta-llama/Meta-Llama-3.1-8B-Instruct"
 bucket_name = 'hpc-gpu-s3'
 hpc_dataset_path = '/home/work/.cache/huggingface/datasets/'
 hpc_hub_path = '/home/work/.cache/huggingface/hub/'
-destination_file = os.path.join(os.getcwd(), hpc_hub_path + 'model.bin')  # 현재 작업 디렉토리의 파일 경로
 folder_name = 'models--meta-llama--Meta-Llama-3.1-8B-Instruct'
 
 # AWS S3 클라이언트 생성
@@ -45,8 +44,13 @@ def main():
     # 모델 파일 다운로드 및 압축 풀기
     model_zip_path = os.path.join(hpc_hub_path, 'hub.tar')
     download_with_progress(bucket_name, 'home_hub.zip', model_zip_path)
-    with tarfile.open(model_zip_path, 'r') as tar:
-        tar.extractall(hpc_hub_path)
-        
+    
+    # Get the total size of the tar file
+    total_size = os.path.getsize(model_zip_path)
+    blocking_factor = ((total_size // 512) // 100) + 1
+    
+    # Extract the tar file with progress
+    os.system(f"tar --blocking-factor={blocking_factor} --checkpoint=1 --checkpoint-action=ttyout='Extracting %u%' -xf {model_zip_path} -C {hpc_hub_path}")
+
 if __name__ == "__main__":
     main()
